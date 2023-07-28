@@ -12,6 +12,7 @@ import Cta from "../components/cta";
 import Faq from "../components/faq";
 import PopupWidget from "../components/popupWidget";
 import { useEffect, useState } from "react";
+import { NextSeo } from "next-seo";
 
 const Home = () => {
   const [data, setData] = useState("");
@@ -28,7 +29,11 @@ const Home = () => {
         <meta name="description" content={data?.title} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <NextSeo
+        title={data?.title}
+        description={data?.title}
+        keywords={data?.title}
+      />
       <Navbar />
       <Hero />
       <SectionTitle
