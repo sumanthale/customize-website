@@ -13,27 +13,16 @@ import Faq from "../components/faq";
 import PopupWidget from "../components/popupWidget";
 import { useEffect, useState } from "react";
 import { NextSeo } from "next-seo";
+import axios from "axios";
 
-const Home = () => {
-  const [data, setData] = useState("");
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/todos/1")
-      .then((response) => response.json())
-      .then((json) => setData(json));
-  }, []);
-
+const Home = ({ metaDescription }) => {
   return (
     <>
       <Head>
-        <title>{data?.title}</title>
-        <meta name="description" content={data?.title} />
+        <title>{metaDescription}</title>
+        <meta name="description" content={metaDescription} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <NextSeo
-        title={data?.title}
-        description={data?.title}
-        keywords={data?.title}
-      />
       <Navbar />
       <Hero />
       <SectionTitle
@@ -76,3 +65,16 @@ const Home = () => {
 };
 
 export default Home;
+
+export async function getServerSideProps() {
+  const response = await fetch("https://api.api-ninjas.com/v1/chucknorris", {
+    headers: { "X-Api-Key": "XIjF0HjxPNfidhGIC68/9g==b63vifrTtM4KRWbM" },
+  });
+  const data = await response.json();
+
+  return {
+    props: {
+      metaDescription: data.joke,
+    },
+  };
+}
